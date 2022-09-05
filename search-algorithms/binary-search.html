@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			const binarySearch = (
+				arr,
+				target,
+				start = 0,
+				stop = arr.length - 1
+			) => {
+				let midPoint = Math.floor((stop - start) / 2 + start);
+
+				// check where case is true, and return accordingly
+				// case 1: match is found; where arr[midpoint] = target; return midpoint
+				// case 2: match is not found, where start = stop, return -1
+				// case 3: match is in upper range, return recursive fn with newStart (mid+1)
+				// case 4: match is in lower range, return recursive fn with newEnd (mid-1)
+				switch (true) {
+					case arr[midPoint] === target:
+						return midPoint;
+					case stop === start:
+						return -1;
+					case arr[midPoint] < target:
+						start = midPoint + 1;
+						return binarySearch(arr, target, start, stop);
+					case arr[midPoint] > target:
+						stop = midPoint - 1;
+						return binarySearch(arr, target, start, stop);
+				}
+			};
+			// console.log(binarySearch([1, 2, 3, 4, 5], 5)); // 4
+			// console.log(binarySearch([1, 2, 3, 4, 5], 2)); // 1
+			// console.log(binarySearch([1, 2, 3, 4, 5], 3)); // 2
+			// console.log(binarySearch([1, 2, 3, 4, 5], 6)); // -1
+			// console.log(
+			// 	binarySearch(
+			// 		[
+			// 			5, 6, 10, 13, 14, 18, 30, 34, 35, 37, 40, 44, 64, 79,
+			// 			84, 86, 95, 96, 98, 99,
+			// 		],
+			// 		10
+			// 	)
+			// ); // 2
+			// binarySearch(
+			// 	[
+			// 		5, 6, 10, 13, 14, 18, 30, 34, 35, 37, 40, 44, 64, 79, 84,
+			// 		86, 95, 96, 98, 99,
+			// 	],
+			// 	95
+			// ); // 16
+			// binarySearch(
+			// 	[
+			// 		5, 6, 10, 13, 14, 18, 30, 34, 35, 37, 40, 44, 64, 79, 84,
+			// 		86, 95, 96, 98, 99,
+			// 	],
+			// 	100
+			// ); // -1
+		</script>
+	</body>
+</html>
