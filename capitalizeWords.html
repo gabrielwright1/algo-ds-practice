@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			function capitalizeWords(array) {
+				// helper recursion
+				let result = [];
+
+				const fn = (arr) => {
+					// base case -> array is empty
+					if (arr.length === 0) return;
+
+					// diff case -> array is not empty
+					if (arr.length > 0) {
+						// remove first element from array
+						const firstElem = arr.shift();
+						// call toUpperCse on element
+						const capitalized = firstElem.toUpperCase();
+						// add to result
+						result.push(capitalized);
+						// return function called on shortened arr
+						return fn(arr);
+					}
+				};
+				fn(array);
+
+				return result;
+			}
+
+			let words = ["i", "am", "learning", "recursion"];
+			capitalizeWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
+		</script>
+	</body>
+</html>

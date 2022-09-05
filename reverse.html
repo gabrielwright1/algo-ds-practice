@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			const reverse = (str) => {
+				let result = [];
+				let letters = str.split("");
+
+				const fn = (arr) => {
+					// base case - when arr is empty
+					if (arr.length === 0) return;
+					// diff input
+					if (arr.length > 0) {
+						// store last element in result
+						const last = arr.pop();
+						result.push(last);
+						// pass in mutated arr
+						return fn(arr);
+					}
+				};
+				fn(letters);
+
+				return result.join("");
+			};
+			console.log(reverse("awesome"));
+		</script>
+	</body>
+</html>

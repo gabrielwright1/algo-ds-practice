@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			function capitalizeFirst(array) {
+				let result = [];
+
+				const fn = (arr) => {
+					// base -> when arr.length=0;
+					if (arr.length === 0) return;
+					// diff -> when arr.length > 0;
+					if (arr.length > 0) {
+						// remove first element from array
+						const firstElem = arr.shift();
+
+						// split the word into letters
+						const firstElemLetters = firstElem.split("");
+
+						// uppercase first letter - store in head
+						const head = firstElemLetters[0].toUpperCase();
+
+						// remove first letter from array
+						firstElemLetters.shift();
+
+						// convert rest of word into string - store in tail
+						const tail = firstElemLetters.join("");
+
+						// concatenate head with tail
+						const word = head.concat(tail);
+
+						// push word into results
+						result.push(word);
+
+						// call fn again with shortened array
+						return fn(arr);
+					}
+				};
+				fn(array);
+				return result;
+			}
+
+			capitalizeFirst(["car", "taco", "banana"]); // ['Car','Taco','Banana']
+		</script>
+	</body>
+</html>

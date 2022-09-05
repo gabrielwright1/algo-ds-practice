@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			let obj = {
+				num: 1,
+				test: [],
+				data: {
+					val: 4,
+					info: {
+						isRight: true,
+						random: 66,
+					},
+				},
+			};
+
+			// PURE RECURSION
+			const stringifyNumbers = (obj) => {
+				let result = {};
+
+				for (let key in obj) {
+					// base case -> no more keys left to iterate through, or end of nesting
+					if (typeof obj[key] === "number") {
+						result[key] = obj[key].toString();
+					} else if (
+						typeof obj[key] === "object" &&
+						!Array.isArray(obj[key])
+					) {
+						result[key] = stringifyNumbers(obj[key]);
+					} else {
+						result[key] = obj[key];
+					}
+				}
+
+				return result;
+			};
+
+			// HELPER METHOD RECURSION (not really necessary)
+			// const stringifyNumbers = (obj) => {
+			// 	let result = {};
+
+			// 	const fn = (obj) => {
+			// 		// create newObj container
+			// 		// loop over keys of obj, check typeof value
+			// 		// if value is an object, call the fn again and map to newObj[key]
+			// 		// if value is a number, convert to string and map to newObj[key]
+			// 		// if value is an array or non-number, map value to newObj[key]
+			// 		// return newObj
+			// 		let newObj = {};
+			// 		for (let key in obj) {
+			// 			if (typeof obj[key] === "number") {
+			// 				newObj[key] = obj[key].toString();
+			// 			} else if (
+			// 				typeof obj[key] === "object" &&
+			// 				!Array.isArray(obj[key])
+			// 			) {
+			// 				newObj[key] = fn(obj[key]);
+			// 			} else {
+			// 				newObj[key] = obj[key];
+			// 			}
+			// 		}
+			// 		return newObj;
+			// 	};
+
+			// 	// store output from fn in result, and return result
+			// 	result = fn(obj);
+
+			// 	return result;
+			// };
+
+			console.log(stringifyNumbers(obj));
+
+			/*
+			         {
+			             num: "1",
+			             test: [],
+			             data: {
+			                 val: "4",
+			                 info: {
+			                     isRight: true,
+			                     random: "66"
+			                 }
+			             }
+			         }
+			         */
+		</script>
+	</body>
+</html>

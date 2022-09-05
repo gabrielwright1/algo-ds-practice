@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			const obj = {
+				stuff: "foo",
+				data: {
+					val: {
+						thing: {
+							info: "bar",
+							moreInfo: {
+								evenMoreInfo: {
+									weMadeIt: "baz",
+								},
+							},
+						},
+					},
+				},
+			};
+
+			const collectStrings = (obj) => {
+				let result = [];
+
+				const fn = (obj) => {
+					// base case -> no more keys, or no more nesting
+					for (let key in obj) {
+						if (typeof obj[key] === "string") {
+							result.push(obj[key]);
+						}
+						if (
+							typeof obj[key] === "object" &&
+							!Array.isArray(obj[key])
+						) {
+							fn(obj[key]);
+						}
+					}
+				};
+				fn(obj);
+
+				return result;
+			};
+
+			collectStrings(obj); // ["foo", "bar", "baz"])
+		</script>
+	</body>
+</html>

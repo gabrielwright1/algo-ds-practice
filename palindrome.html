@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			// isPalindrome('awesome') // false
+			// isPalindrome('foobar') // false
+			// isPalindrome('tacocat') // true
+			// isPalindrome('amanaplanacanalpanama') // true
+			// isPalindrome('amanaplanacanalpandemonium') // false
+
+			function isPalindrome(str) {
+				const letters = str.split("");
+				const res = [];
+
+				const fn = (arr) => {
+					// fill up res with letters, from end to start
+					// diff input -> arr.length > 0
+					if (arr.length > 0) {
+						// remove final letter from arr, add to front of res
+						const lastLetter = arr.pop();
+						res.push(lastLetter);
+						// call fn again with shortened arr
+						return fn(arr);
+					}
+
+					// base case -> arr.length===0; return;
+					if (arr.length === 0) return;
+				};
+
+				// pass in arr of letters
+				fn(letters);
+
+				// check if match
+				return res.join("") === str ? true : false;
+			}
+			isPalindrome("awesome");
+		</script>
+	</body>
+</html>

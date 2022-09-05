@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			// Write a recursive function called nestedEvenSum.
+			// Return the sum of all even numbers in an object which may contain nested objects.
+			var obj1 = {
+				outer: 2,
+				obj: {
+					inner: 2,
+					otherObj: {
+						superInner: 2,
+						notANumber: true,
+						alsoNotANumber: "yup",
+					},
+				},
+			};
+
+			var obj2 = {
+				a: 2,
+				b: { b: 2, bb: { b: 3, bb: { b: 2 } } },
+				c: { c: { c: 2 }, cc: "ball", ccc: 5 },
+				d: 1,
+				e: { e: { e: 2 }, ee: "car" },
+			};
+
+			function nestedEvenSum(object) {
+				// helper recursion
+				let result = 0;
+
+				const fn = (obj) => {
+					// convert keys into array
+					const keys = Object.keys(obj);
+
+					// loop over keys using i
+					for (let i = 0; i < keys.length; i++) {
+						const prop = obj[keys[i]];
+
+						// base case -> obj.key is an even number, add to result
+						if (typeof prop === "number" && prop % 2 === 0) {
+							result += prop;
+						}
+
+						// diff case -> obj.key is an object, call fn again
+						if (typeof prop === "object") {
+							fn(prop);
+						}
+					}
+				};
+				fn(object);
+
+				return result;
+			}
+
+			// nestedEvenSum(obj1); // 6
+			nestedEvenSum(obj2); // 10
+		</script>
+	</body>
+</html>

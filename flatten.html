@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			// HELPER RECURSION - Using loop
+			// function flatten(array) {
+			// 	let result = [];
+
+			// 	// recursive function (fn)
+			// 	const fn = (arr) => {
+			// 		for (let i = 0; i < arr.length; i++) {
+			// 			if (Array.isArray(arr[i])) {
+			// 				result.concat(fn(arr[i]));
+			// 			} else {
+			// 				result.push(arr[i]);
+			// 			}
+			// 		}
+			// 	};
+
+			// 	fn(array);
+
+			// 	console.log(result);
+			// 	return result;
+			// }
+			// flatten([1, 2, 3, [4, 5]]); // [1, 2, 3, 4, 5]
+			// flatten([1, [2, [3, 4], [[5]]]]); // [1, 2, 3, 4, 5]
+			// flatten([[1], [2], [3]]); // [1,2,3]
+			// flatten([[[[1], [[[2]]], [[[[[[[3]]]]]]]]]]); // [1,2,3
+
+			// REDUCE RECURSION
+			const flatten = (array) => {
+				// reduce syntax (callback, initial value) => returns a single value
+				// if current item needs to be flatter, recursively call flatten again on current
+				// if current item is fine, add it to accumulator
+				return array.reduce(
+					(acc, current) =>
+						acc.concat(
+							Array.isArray(current) ? flatten(current) : current
+						),
+					[]
+				);
+			};
+
+			console.log(flatten([1, 2, 3, [4, 5]])); // [1, 2, 3, 4, 5]
+			// flatten([1, [2, [3, 4], [[5]]]]); // [1, 2, 3, 4, 5]
+			// flatten([[1], [2], [3]]); // [1,2,3]
+			// flatten([[[[1], [[[2]]], [[[[[[[3]]]]]]]]]]); // [1,2,3
+		</script>
+	</body>
+</html>

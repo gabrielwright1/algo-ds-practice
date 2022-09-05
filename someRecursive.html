@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			const isOdd = (val) => val % 2 !== 0;
+
+			function someRecursive(arr, callback) {
+				let flag = false;
+				let arrCopy = [...arr];
+
+				// recursive fn
+				const fn = (array) => {
+					// check base case -> empty array
+					if (array.length === 0) return;
+
+					// diff input -> run callback until array is empty
+					const firstItem = array.shift();
+					flag = callback(firstItem);
+
+					// check flag -> run while false
+					if (!flag) {
+						return fn(array);
+					}
+				};
+				fn(arrCopy);
+
+				// return boolean flag
+				return flag;
+			}
+			console.log(someRecursive([], isOdd));
+		</script>
+	</body>
+</html>
