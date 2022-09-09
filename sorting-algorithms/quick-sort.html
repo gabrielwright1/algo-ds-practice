@@ -7,6 +7,70 @@
 		<title>Document</title>
 	</head>
 	<body>
-		<script></script>
+		<script>
+			// Quick sort - Time: O (N log N), Space: O (log N)
+
+			// Note: This algorithm mutates the array in-place due to pivot helper swapping pivot position
+
+			// Exploits the fact that arrays of 0 and 1 elements are sotred
+			// Selects one element as pivot, and finds where the index of pivot should end up in sorted array
+			// Once pivot is positioned, quick sort is applied to both sides of the pivot
+
+			// Pivot helper pseudocode
+			// Accept 3 arguments, array, start index (0), end index (arr.length-1)
+			// Grab pivot from start of array
+			// Store current pivot index in variable
+			// Loop thorugh array from start to end
+			// -> If pivot is greater than current element,
+			// -> increment pivot index, swap current element with element at pivot index
+			// Swap pivot element with pivot index
+			// return pivot index
+
+			const swap = (arr, i, j) => {
+				let temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+				return arr;
+			};
+
+			const pivotHelper = (arr, start = 0, end = arr.length - 1) => {
+				let pivot = arr[start];
+				let swapIndex = start;
+
+				for (let i = start; i <= end; i++) {
+					if (pivot > arr[i]) {
+						swapIndex++;
+						swap(arr, swapIndex, i); // swap swapIndex item with current item
+					}
+				}
+				swap(arr, swapIndex, start); // swap swapIndex item with start item
+				return swapIndex;
+			};
+
+			// console.log(pivotHelper([4, 8, 2, 1, 5, 7, 6, 3])); // 3
+
+			// Quick sort pseudocode:
+			// Call pivot helper on the array
+			// When helper returns you the pivot index...
+			// recursively call pivot helper on the subarray to the left/right of index
+			// Base case when your subarray has less than 2 elements (right <= left)
+
+			const quickSort = (arr, left = 0, right = arr.length - 1) => {
+				// base case - if subarray is less than 2 elements, i.e. left > right
+				if (left < right) {
+					let pivotIndex = pivotHelper(arr, left, right);
+
+					// sort the left side of array
+					quickSort(arr, left, pivotIndex - 1);
+
+					// sort the right side of array
+					quickSort(arr, pivotIndex + 1, right);
+
+					return arr;
+				}
+			};
+
+			quickSort([40, -100, 4, 6, 9, 1, 2, 5, 3]);
+		</script>
 	</body>
 </html>
