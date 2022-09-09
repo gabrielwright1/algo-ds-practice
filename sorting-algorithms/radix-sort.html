@@ -7,6 +7,68 @@
 		<title>Document</title>
 	</head>
 	<body>
-		<script></script>
+		<script>
+			// Radix Sort (no recursion)
+			// Time: O(nk),
+			// Space: O(n+k),
+			// k is the number of digits/word size
+			// n is the length of array
+
+			// Note: This is not a comparison sort, it is an alternative to the other sorts.
+
+			// About:
+			// Based on the number of digits
+			// Never makes comparison between elements
+			// The size of a number is encoded in the number of digits (more digits = bigger number)
+			// Involves moving numbers into buckets based each digit
+			// Iterations are based on the number of max digits of any element in set
+
+			// Helper methods pseudocode:
+			// getDigit(num, place) - returns the digit in num at a given place value
+			// digitCount(num) - returns the number of digits in num
+			// mostDigits(nums) - given an array, return the number of digits in largest in list
+
+			// Radix sort pseudocode:
+			// accepts a list of numbers
+			// figure out how many digits the largest number has
+			// loop from k=0 to the largest number of digits
+			// for each iteration
+			// -> create buckets for each digit (0-9)
+			// -> place each number in corresponding bucket based on kth digit
+			// replace existing array with values in our buckets, starting from 0 up to 9
+			// return list at the end
+
+			function getDigit(num, i) {
+				return Math.floor(Math.abs(num) / Math.pow(10, i)) % 10;
+			}
+
+			function digitCount(num) {
+				if (num === 0) return 1;
+				return Math.floor(Math.log10(Math.abs(num))) + 1;
+			}
+
+			function mostDigits(nums) {
+				let maxDigits = 0;
+				for (let i = 0; i < nums.length; i++) {
+					maxDigits = Math.max(maxDigits, digitCount(nums[i]));
+				}
+				return maxDigits;
+			}
+
+			function radixSort(nums) {
+				let maxDigitCount = mostDigits(nums);
+				for (let k = 0; k < maxDigitCount; k++) {
+					let digitBuckets = Array.from({ length: 10 }, () => []);
+					for (let i = 0; i < nums.length; i++) {
+						let digit = getDigit(nums[i], k);
+						digitBuckets[digit].push(nums[i]);
+					}
+					nums = [].concat(...digitBuckets); // spread nested buckets into nums
+				}
+				return nums;
+			}
+
+			console.log(radixSort([23, 345, 5467, 12, 2345, 9852]));
+		</script>
 	</body>
 </html>
