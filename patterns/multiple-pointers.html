@@ -7,6 +7,54 @@
 		<title>Document</title>
 	</head>
 	<body>
-		<script></script>
+		<script>
+			// Count unique values - O(N)
+
+			// Usage
+			// Sorted array
+
+			// Pseudocode
+			// multiple pointer problem, sorted array input
+			// start at left = 0, move j (target) and compare to i (base)
+			// if i != j, move i to the right by 1, replace the value with what's at j
+			// otherwise, move j right by 1, compare again
+			// once j reaches arr.length, return the value of i + 1
+
+			// Data structures
+			// One array (mutated)
+
+			const countUniqueValues = (arr) => {
+				// set pointers
+				let i = 0;
+				let j = 1;
+
+				// failsafe - empty array
+				if (arr.length === 0) return 0;
+
+				// show initial array and pointers
+				console.log(arr, `i=${i}`, `j=${j}`);
+
+				// loop over array, collecting uniques on the left-hand side
+				while (j < arr.length) {
+					if (arr[i] !== arr[j]) {
+						i++;
+						arr[i] = arr[j];
+						j++;
+					} else if (arr[i] === arr[j]) {
+						j++;
+					}
+					// print each array mutation
+					console.log(arr, `i=${i}`, `j=${j}`);
+				}
+				return i + 1; // 0 indexed, so i+1 = unique values
+			};
+
+			// console.log(countUniqueValues([1, 1, 1, 1, 1, 1, 1, 2])); // 2
+			console.log(
+				countUniqueValues([1, 2, 3, 4, 4, 4, 4, 7, 7, 12, 12, 13])
+			); // 7
+			// console.log(countUniqueValues([])); // 0
+			// console.log(countUniqueValues([-2, -2, -1, -1, 0, 1])); // 4
+		</script>
 	</body>
 </html>

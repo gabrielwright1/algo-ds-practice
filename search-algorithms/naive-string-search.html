@@ -8,12 +8,18 @@
 	</head>
 	<body>
 		<script>
-			const naiveStrSearch = (string, target) => {
-				// two nested loops: outer checks long string, inner checks short string
-				// if characters dont match, break inner loop, continue with outer
-				// if inner loop completes (match found), increment counter
-				// return counter
+			// Naive string search - O(N^2)
 
+			// Usage:
+			// Two strings
+
+			// Pseudocode:
+			// two nested loops: outer checks long string, inner checks short string
+			// if characters dont match, break inner loop, continue with outer
+			// if inner loop completes (match found), increment counter
+			// return counter
+
+			const naiveStrSearch = (string, target) => {
 				let counter = 0;
 
 				for (let i = 0; i < string.length; i++) {

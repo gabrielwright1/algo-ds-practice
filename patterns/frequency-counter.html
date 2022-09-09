@@ -7,6 +7,117 @@
 		<title>Document</title>
 	</head>
 	<body>
-		<script></script>
+		<script>
+			// Frequency Counter - O(N)
+
+			// Usage:
+			// Two strings
+
+			// Pseudocode:
+			// push elements of str1 into object
+			// increment occurrences for each letter
+			// push elements of str2 into separate object
+			// increment occurrences for each letter
+			// loop over the first object, compare to second object
+			// if they match, return true/false
+
+			// Datastructures:
+			// Two objects
+
+			// Algorithms:
+			// One loop for each object, one loop to compare elements (3 loops total)
+
+			function validAnagram(str1, str2) {
+				const countFrequency = (str) => {
+					let obj = {};
+					let arr = str.split(""); // convert str1 to array
+
+					for (let i = 0; i <= arr.length - 1; i++) {
+						let letter = arr[i];
+						if (obj.hasOwnProperty(letter)) {
+							obj[letter] += 1;
+						} else {
+							obj[letter] = 1;
+						}
+					}
+					return obj;
+				};
+
+				// call fn on both strings, store frequency objects
+				const obj1 = countFrequency(str1);
+				const obj2 = countFrequency(str2);
+
+				// compare both objects, loop using for...in
+				// check the count for each letter, if they dont match, return false
+				for (const prop in obj1) {
+					if (!obj2.hasOwnProperty(prop)) {
+						return false;
+					}
+					if (obj2[prop] !== obj1[prop]) {
+						return false;
+					}
+				}
+
+				for (const prop in obj2) {
+					if (!obj1.hasOwnProperty(prop)) {
+						return false;
+					}
+
+					if (obj2[prop] !== obj1[prop]) {
+						return false;
+					}
+				}
+				return true;
+			}
+
+			// ---------------------------------------
+			// Test cases
+			// ---------------------------------------
+
+			// console.log(validAnagram("", "")); // true
+			// console.log(validAnagram("aaz", "zza")); // false
+			// console.log(validAnagram("anagram", "nagaram")); // true
+			// console.log(validAnagram("rat", "car")); // false
+			// console.log(validAnagram("awesome", "awesom")); // false
+			// console.log(validAnagram("amanaplanacanalpanama", "acanalmanplanpamana")); // false
+			// console.log(validAnagram("qwerty", "qeywrt")); // true
+			// console.log(validAnagram("texttwisttime", "timetwisttext")); // true
+
+			// ---------------------------------------
+			// COLTS SOLUTION - Much shorter
+			// ---------------------------------------
+
+			// function validAnagram(first, second) {
+			// 	if (first.length !== second.length) {
+			// 		return false;
+			// 	}
+
+			// 	const lookup = {};
+
+			// 	for (let i = 0; i < first.length; i++) {
+			// 		let letter = first[i];
+			// 		// if letter exists, increment, otherwise set to 1
+			// 		lookup[letter]
+			// 			? (lookup[letter] += 1)
+			// 			: (lookup[letter] = 1);
+			// 	}
+			// 	console.log(lookup);
+
+			// 	for (let i = 0; i < second.length; i++) {
+			// 		let letter = second[i];
+			// 		// can't find letter or letter is zero then it's not an anagram
+			// 		if (!lookup[letter]) {
+			// 			return false;
+			// 		} else {
+			// 			lookup[letter] -= 1;
+			// 		}
+			// 	}
+
+			// 	return true;
+			// }
+
+			// // {a: 0, n: 0, g: 0, r: 0, m: 0,s:1}
+			// validAnagram("anagrams", "nagaramm");
+		</script>
 	</body>
 </html>

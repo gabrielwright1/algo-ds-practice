@@ -7,6 +7,72 @@
 		<title>Document</title>
 	</head>
 	<body>
-		<script></script>
+		<script>
+			// Max sum - Naive - O(N^2)
+
+			// Usage:
+			// Non-sorted array
+
+			// Pseudocode:
+			// loop over array from left to right, leaving num spots at end
+			// store temp variable, reset at each i
+			// nest an inner loop, from j up until num (non-inclusive)
+			// calculate num items, starting from i
+			// if max is higher than temp, updated temp
+			// return max
+
+			function maxSubarraySum(arr, num) {
+				if (arr.length < num) return null; // failsafe
+
+				var max = -Infinity; // result
+
+				for (let i = 0; i < arr.length - num + 1; i++) {
+					temp = 0; // store temp sum at each i
+					for (let j = 0; j < num; j++) {
+						temp += arr[i + j]; // add num items, starting from i
+					}
+					if (temp > max) {
+						max = temp;
+					}
+				}
+				return max;
+			}
+
+			maxSubarraySum([2, 6, 9, 2, 1, 8, 5, 6, 3], 3);
+
+			// Max sum - Refactor - O(N)
+
+			// Usage:
+			// Non-sorted array
+
+			// Pseudocode:
+			// loop over array
+			// calculate first maxSum using num items
+			// set it to tempSum
+			// loop over array, starting from end of window
+			// add next item, subtract previous item
+			// take the max of tempSum and maxSum
+			// repeat until end of array
+			// return maxSum
+
+			function maxSubarraySum(arr, num) {
+				if (arr.length < num) return null; // failsafe
+
+				let maxSum = 0;
+				let tempSum = 0;
+
+				for (let i = 0; i < num; i++) {
+					maxSum += arr[i];
+				}
+				tempSum = maxSum;
+				for (let i = num; i < arr.length; i++) {
+					tempSum = tempSum - arr[i - num] + arr[i];
+					maxSum = Math.max(maxSum, tempSum);
+				}
+				return maxSum;
+			}
+
+			maxSubarraySum([2, 6, 9, 2, 1, 8, 5, 6, 3], 3);
+		</script>
 	</body>
 </html>

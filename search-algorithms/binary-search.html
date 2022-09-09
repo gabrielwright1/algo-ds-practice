@@ -8,6 +8,17 @@
 	</head>
 	<body>
 		<script>
+			// Binary Search - O(log N)
+
+			// Usage:
+			// Sorted array
+
+			// check where case is true, and return accordingly
+			// case 1: match is found; where arr[midpoint] = target; return midpoint
+			// case 2: match is not found, where start = stop, return -1
+			// case 3: match is in upper range, return recursive fn with newStart (mid+1)
+			// case 4: match is in lower range, return recursive fn with newEnd (mid-1)
+
 			const binarySearch = (
 				arr,
 				target,
@@ -15,12 +26,6 @@
 				stop = arr.length - 1
 			) => {
 				let midPoint = Math.floor((stop - start) / 2 + start);
-
-				// check where case is true, and return accordingly
-				// case 1: match is found; where arr[midpoint] = target; return midpoint
-				// case 2: match is not found, where start = stop, return -1
-				// case 3: match is in upper range, return recursive fn with newStart (mid+1)
-				// case 4: match is in lower range, return recursive fn with newEnd (mid-1)
 				switch (true) {
 					case arr[midPoint] === target:
 						return midPoint;
