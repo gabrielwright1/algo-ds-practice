@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			// LRU Cache - Least recently used item gets deleted
+
+			// DLL
+			// Whenever a node gets used, move it to head (behind dummy head)
+			// Node thats at the tail gets popped off when capcity gets exceeded
+			// Actions: InsertHead, RemoveTail, RemoveNode, MoveToHead (RemoveNode, InsertHead)
+			// Add - O(1), Remove - O(1)
+
+			// Hash
+			// Stores {keys, node} pairs inside a hash map
+			// Easy search and retrieval of keys/nodes
+			// Add - O(1), Remove - O(1), Retrieve - O(1), Update - O(1)
+
+			// LRUCache
+			// Stores the capacity, instantiates hash and DLL
+			// contains the get/put methods
+			// Get - O(1), Set - O(1) - based on hash
+
+			class Node {
+				constructor(key, val) {
+					this.next = null;
+					this.prev = null;
+					this.key = key;
+					this.val = val;
+				}
+			}
+
+			class DLL {
+				constructor(capacity) {
+					this.head = new Node();
+					this.tail = new Node();
+					this.head.next = this.tail;
+					this.tail.prev = this.head;
+				}
+
+				insertHead(node) {
+					node.prev = this.head;
+					node.next = this.head.next;
+					this.head.next.prev = node;
+					this.head.next = node;
+				}
+
+				removeNode(node) {
+					let prev = node.prev;
+					let next = node.next;
+					prev.next = next;
+					next.prev = prev;
+				}
+
+				moveToHead(node) {
+					this.removeNode(node);
+					this.insertHead(node);
+				}
+
+				removeTail() {
+					let tail = this.tail.prev;
+					this.removeNode(tail);
+					return tail.key;
+				}
+			}
+
+			class LRUCache {
+				constructor(capacity) {
+					this.capacity = capacity;
+					this.hash = new Map();
+					this.dll = new DLL();
+				}
+
+				get(key) {
+					let node = this.hash.get(key);
+					if (node) {
+						this.dll.moveToHead(node);
+						return node.val;
+					} else {
+						return -1;
+					}
+				}
+
+				put(key, value) {
+					let node = this.hash.get(key);
+
+					if (!node) {
+						let newNode = new Node(key, value);
+						this.hash.set(key, newNode);
+						this.dll.insertHead(newNode);
+						if (this.hash.size > this.capacity) {
+							let tailKey = this.dll.removeTail();
+							this.hash.delete(tailKey);
+						}
+					} else {
+						node.val = value;
+						this.dll.moveToHead(node);
+					}
+				}
+			}
+
+			let cache = new LRUCache(2);
+			cache.put(1, 1);
+			cache.put(2, 2);
+			cache.put(3, 3);
+
+			console.log(cache); // hash should only contain (1,1) and (3,3)
+		</script>
+	</body>
+</html>

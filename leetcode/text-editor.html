@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			class TextEditor {
+				constructor() {
+					this.forward = [];
+					this.backward = [];
+				}
+
+				/**
+				 * @param {string} text
+				 * @return {void}
+				 */
+				addText(text) {
+					// loop over the text, push every letter into forward array (add to end)
+					for (let letter of text) {
+						this.forward.push(letter);
+					}
+				}
+
+				/**
+				 * @param {number} k
+				 * @return {number}
+				 */
+				deleteText(k) {
+					// loop over forward array
+					// remove k characters, update counter, return counter
+					// loop while forward array has characters AND up until the counter reaches k input
+					// for example, if k = 5, loop from 0 to 4 (5 iterations) and stop
+
+					let counter = 0;
+					while (this.forward.length && counter < k) {
+						this.forward.pop();
+						counter++;
+					}
+
+					return counter;
+				}
+
+				/**
+				 * @param {number} k
+				 * @return {string}
+				 */
+				cursorLeft(k) {
+					// loop over forward array, while the array has characters and counter < k
+					// pop letters off forward array, push into backward array
+					// pass in the forward array to toTheLeft function to get string to left of cursor
+					let counter = 0;
+					while (this.forward.length && counter < k) {
+						this.backward.push(this.forward.pop());
+						counter++;
+					}
+					return this.toTheLeft(this.forward);
+				}
+
+				/**
+				 * @param {number} k
+				 * @return {string}
+				 */
+				cursorRight(k) {
+					// loop over backward array, while array has characters and counter is < k
+					// pop letters off backward array, push into forward array
+					// pass in the forward array to toTheLeft function to get the string to left of cursor
+					let counter = 0;
+					while (this.backward.length && counter < k) {
+						this.forward.push(this.backward.pop());
+						counter++;
+					}
+					return this.toTheLeft(this.forward);
+				}
+
+				/**
+				 * @param {array} arr
+				 * @return {string}
+				 */
+				toTheLeft(arr) {
+					// loop from the either the beginning of the array, or 10 characters to the left of the cursor, whatever is bigger
+					// push characters into result
+					// join result
+					let letters = [];
+
+					for (
+						let i = Math.max(0, arr.length - 10);
+						i < arr.length;
+						i++
+					) {
+						letters.push(arr[i]);
+					}
+					return letters.join("");
+				}
+			}
+
+			//  Your TextEditor object will be instantiated and called as such:
+			var obj = new TextEditor();
+			obj.addText("this is some text");
+			// console.log(obj.forward); // prints "this is some text", 17 characters long
+			var param_2 = obj.deleteText(5);
+			// console.log(param_2); // prints 5,
+			// console.log(obj.forward); // prints "this is some", 12 characters long
+			var param_3 = obj.cursorLeft(2); // text = "this is so|me" returns "this is so"
+			// console.log(param_3);
+			var param_4 = obj.cursorRight(1); // text = "this is som|e" returns "his is som"
+			console.log(param_4);
+		</script>
+	</body>
+</html>
