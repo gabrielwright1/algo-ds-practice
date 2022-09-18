@@ -14,27 +14,13 @@
 					this.backward = [];
 				}
 
-				/**
-				 * @param {string} text
-				 * @return {void}
-				 */
 				addText(text) {
-					// loop over the text, push every letter into forward array (add to end)
 					for (let letter of text) {
 						this.forward.push(letter);
 					}
 				}
 
-				/**
-				 * @param {number} k
-				 * @return {number}
-				 */
 				deleteText(k) {
-					// loop over forward array
-					// remove k characters, update counter, return counter
-					// loop while forward array has characters AND up until the counter reaches k input
-					// for example, if k = 5, loop from 0 to 4 (5 iterations) and stop
-
 					let counter = 0;
 					while (this.forward.length && counter < k) {
 						this.forward.pop();
@@ -44,14 +30,7 @@
 					return counter;
 				}
 
-				/**
-				 * @param {number} k
-				 * @return {string}
-				 */
 				cursorLeft(k) {
-					// loop over forward array, while the array has characters and counter < k
-					// pop letters off forward array, push into backward array
-					// pass in the forward array to toTheLeft function to get string to left of cursor
 					let counter = 0;
 					while (this.forward.length && counter < k) {
 						this.backward.push(this.forward.pop());
@@ -60,14 +39,7 @@
 					return this.toTheLeft(this.forward);
 				}
 
-				/**
-				 * @param {number} k
-				 * @return {string}
-				 */
 				cursorRight(k) {
-					// loop over backward array, while array has characters and counter is < k
-					// pop letters off backward array, push into forward array
-					// pass in the forward array to toTheLeft function to get the string to left of cursor
 					let counter = 0;
 					while (this.backward.length && counter < k) {
 						this.forward.push(this.backward.pop());
@@ -76,16 +48,8 @@
 					return this.toTheLeft(this.forward);
 				}
 
-				/**
-				 * @param {array} arr
-				 * @return {string}
-				 */
 				toTheLeft(arr) {
-					// loop from the either the beginning of the array, or 10 characters to the left of the cursor, whatever is bigger
-					// push characters into result
-					// join result
 					let letters = [];
-
 					for (
 						let i = Math.max(0, arr.length - 10);
 						i < arr.length;
