@@ -7,6 +7,143 @@
 		<title>Document</title>
 	</head>
 	<body>
-		<script></script>
+		<script>
+			/**
+			 * @param {number[][]} maze
+			 * @param {number[]} start
+			 * @param {number[]} destination
+			 * @return {boolean}
+			 */
+
+			class Maze {
+				constructor(maze, start, destination) {
+					this.maze = maze; // arr[arr[int]]
+					this.start = start; // [X,Y]
+					this.destination = destination; // [X,Y]
+					this.height = maze[0].length; // int
+					this.width = maze.length; // int
+					this.visited = new Array(this.width) // arr[arr[bool]]
+						.fill(false)
+						.map(() => new Array(this.height).fill(false));
+					this.directions = [
+						[1, 0], // right
+						[0, 1], // down
+						[-1, 0], // left
+						[0, -1], // up
+					];
+				}
+
+				hasPath() {
+					return this.dfs(this.start);
+				}
+
+				dfs(
+					vertex,
+					visited = this.visited,
+					destination = this.destination,
+					directions = this.directions
+				) {
+					console.log("Checking position: ", vertex);
+
+					// base case - vertex[x,y] = destination[x.y]
+					if (
+						vertex[0] === destination[0] &&
+						vertex[1] === destination[1]
+					)
+						return true;
+
+					// check if visited already, if so, return false, otherwise update visited array
+					if (visited[vertex[0]][vertex[1]]) return false;
+					visited[vertex[0]][vertex[1]] = true;
+
+					// diff case - call dfs with valid nextPosition
+					for (const direction of directions) {
+						let newX = vertex[0];
+						let newY = vertex[1];
+						let nextPosition = [newX, newY];
+
+						// keep updating position while still valid
+						while (this.isValidPosition(newX, newY)) {
+							nextPosition = [newX, newY];
+							newX += direction[0];
+							newY += direction[1];
+						}
+
+						// call dfs with valid nextPosition
+						if (this.dfs(nextPosition)) return true;
+					}
+					return false;
+				}
+
+				isValidPosition(x, y) {
+					let width = this.width;
+					let height = this.height;
+					let maze = this.maze;
+					if (
+						x >= 0 &&
+						x < width &&
+						y >= 0 &&
+						y < height &&
+						maze[x][y] === 0
+					) {
+						return true;
+					}
+					return false;
+				}
+			}
+
+			// test cases
+			// let maze = [
+			// 	[0, 0, 1, 0, 0],
+			// 	[0, 0, 0, 0, 0],
+			// 	[0, 0, 0, 1, 0],
+			// 	[1, 1, 0, 1, 1],
+			// 	[0, 0, 0, 0, 0],
+			// ];
+			// let start = [0, 4];
+			// let destination = [4, 4]; // returns true
+
+			let maze = [
+				[0, 0, 0, 0, 1, 0, 0],
+				[0, 0, 1, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 1],
+				[0, 1, 0, 0, 0, 0, 0],
+				[0, 0, 0, 1, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 1, 0, 0, 0, 1],
+				[0, 0, 0, 0, 1, 0, 0], // < destination
+			];
+			let start = [0, 0];
+			let destination = [8, 6]; // returns true
+
+			let maze2 = [
+				[0, 0, 1, 0, 0],
+				[0, 0, 0, 0, 0],
+				[0, 0, 0, 1, 0],
+				[1, 1, 0, 1, 1],
+				[0, 0, 0, 0, 0],
+			];
+			let start2 = [0, 4];
+			let destination2 = [3, 2]; // returns false
+
+			let maze3 = [
+				[0, 0, 0, 0, 0],
+				[1, 1, 0, 0, 1],
+				[0, 0, 0, 0, 0],
+				[0, 1, 0, 0, 1],
+				[0, 1, 0, 0, 0],
+			];
+			let start3 = [4, 3];
+			let destination3 = [0, 1]; // returns false
+
+			let newMaze = new Maze(maze, start, destination);
+			let newMaze2 = new Maze(maze2, start2, destination2);
+			let newMaze3 = new Maze(maze3, start3, destination3);
+
+			console.log(newMaze.hasPath());
+			// console.log(newMaze2.hasPath());
+			// console.log(newMaze3.hasPath());
+		</script>
 	</body>
 </html>

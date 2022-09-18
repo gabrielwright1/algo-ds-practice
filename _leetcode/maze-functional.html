@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta
+			name="viewport"
+			content="width=
+    , initial-scale=1.0"
+		/>
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			/**
+			 * @param {number[][]} maze
+			 * @param {number[]} start
+			 * @param {number[]} destination
+			 * @return {boolean}
+			 */
+			const hasPath = (maze, start, destination) => {
+				// visited array, same size as maze, containing all false values
+				// we will update it as we loop through the directions
+				let width = maze.length;
+				let height = maze[0].length;
+				let visited = new Array(width)
+					.fill(false)
+					.map(() => new Array(height).fill(false));
+
+				return dfs(maze, start, destination, visited);
+			};
+
+			const dfs = (maze, vertex, destination, visited) => {
+				console.log("checking point: ", vertex);
+				let directions = [
+					[1, 0], // right
+					[0, 1], // down
+					[0, -1], // up
+					[-1, 0], // left
+				];
+				// base case - if vertex[][] is destination[][], return true
+				if (
+					vertex[0] === destination[0] &&
+					vertex[1] === destination[1]
+				)
+					return true;
+
+				// visited case - if visited[vertex[0]][vertex[1]] = true, return false (below, update the visited array)
+				if (visited[vertex[0]][vertex[1]]) return false;
+				visited[vertex[0]][vertex[1]] = true;
+
+				// diff case - calculate next position using directions, check if valid position, if so, call dfs again on nextPosition, return true to exit
+				for (let direction of directions) {
+					let newX = vertex[0];
+					let newY = vertex[1];
+					let nextPosition = [newX, newY];
+
+					// roll until boundary
+					while (isValidPosition(newX, newY, maze)) {
+						nextPosition = [newX, newY];
+						newX += direction[0];
+						newY += direction[1];
+					}
+					// call dfs again with nextPosition
+					if (dfs(maze, nextPosition, destination, visited))
+						return true;
+				}
+
+				return false;
+			};
+
+			// Helper function: isValidPosition
+			// params: x, y, maze
+			// returns: true/false
+			// checks boundaries:
+			// x >= 0
+			// y >= 0
+			// x < width
+			// y < height
+			// maze[x][y] === 0 (i.e. empty square)
+
+			const isValidPosition = (x, y, maze) => {
+				let width = maze.length;
+				let height = maze[0].length;
+				if (
+					x >= 0 &&
+					y >= 0 &&
+					x < width &&
+					y < height &&
+					maze[x][y] === 0
+				) {
+					return true;
+				}
+				return false;
+			};
+
+			let maze = [
+				[0, 0, 0, 0, 1, 0, 0],
+				[0, 0, 1, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 1],
+				[0, 1, 0, 0, 0, 0, 0],
+				[0, 0, 0, 1, 0, 0, 0],
+				[0, 0, 0, 0, 0, 0, 0],
+				[0, 0, 1, 0, 0, 0, 1],
+				[0, 0, 0, 0, 1, 0, 0], // < destination
+			];
+			let start = [0, 0];
+			let destination = [8, 6];
+
+			console.log(hasPath(maze, start, destination));
+		</script>
+	</body>
+</html>
